@@ -11,9 +11,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
-    EditText name,desc,status,quantity,price;
-    String s_name,s_desc,s_status,s_quantity,s_price;
+    EditText name,desc,quantity,price;
+    int status=0;
+
     Button add;
     int counter=0;
     ImageButton inc,dec;
@@ -24,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addProduct();
+
+// We can also chain the two calls together
 
     }
 
@@ -36,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             int selectedId = radioGroup.getCheckedRadioButtonId();
             radioButton = (RadioButton) findViewById(selectedId);
-            Toast.makeText(MainActivity.this,
-                           radioButton.getText(), Toast.LENGTH_SHORT).show();
+            if(radioButton.getText()=="Available"){
+            status=Integer.parseInt(radioButton.getText().toString());
+            }
         });
         inc=findViewById(R.id.btnadd);
         dec=findViewById(R.id.btnsub);
@@ -53,12 +60,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dec.setOnClickListener(v -> {
-            if(Integer.parseInt(quantity.getText().toString())>0){
+            if(quantity.getText().toString().trim().length()>0 && Integer.parseInt(quantity.getText().toString())>0){
                 counter=Integer.parseInt(quantity.getText().toString());
                 counter--;
                 quantity.setText(counter+"");
             }
         });
+        add=findViewById(R.id.btnAddProduct);
+        add.setOnClickListener(v -> {
+            Products products=new Products(name.getText().toString(),desc.getText().toString(),status,Integer.parseInt(quantity.getText().toString()),Integer.parseInt(price.getText().toString()));
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("products");
+            myRef.push().setValue(products);
+        });
     }
+
 
 }
