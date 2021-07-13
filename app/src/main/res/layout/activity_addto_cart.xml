@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddtoCart">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="16dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_keyboard_arrow_left_white_24dp" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_favorite_white_24dp" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:fontFamily="@font/calibri"
+                    android:layout_alignParentBottom="true"
+
+                    android:text="Cactus"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_marginHorizontal="9dp"
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/calibri"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignBottom="@+id/name"
+                    android:text="S19"
+                    android:textColor="#8e8ef6"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="200dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#dedede" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clipChildren="false"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnadd"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_add" />
+
+                <EditText
+                    android:id="@+id/quantity"
+                    android:layout_width="100dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/edit_text_background"
+                    android:ems="10"
+                    android:hint="Quantity"
+                    android:inputType="text|number"
+                    android:textSize="16sp" />
+
+                <ImageButton
+                    android:id="@+id/btnsub"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/rounded_corner"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_minus" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="in addition to being a decoration, cactus can also be a health benefit, let's buy cactus in our store because now discount 30%"
+                android:padding="16dp"
+                android:textColor="#444444"
+                android:fontFamily="@font/calibri"
+                android:textSize="16sp"
+                />
+
+            <Button
+                android:id="@+id/add_cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:background="@drawable/buttonshape"
+                android:fontFamily="@font/calibri"
+                android:text="Buy Now"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

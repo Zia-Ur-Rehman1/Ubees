@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.ColorSpace;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -33,8 +34,9 @@ import com.google.firebase.storage.UploadTask;
 
 public class MainActivity extends AppCompatActivity {
     EditText name, desc, quantity, price;
-    int status = 0;
+    String status;
     Uri imageUri;
+    Model model = new Model();
     String modelId;
     private Button uploadBtn,add;
     private ImageView imageView;
@@ -97,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
 
-                        Model model = new Model(uri.toString());
+                        model = new Model(uri.toString());
+
+                        Log.i("ZIA", "onSuccess: "+model.ImageUrl);
                         modelId = root.push().getKey();
                         progressDialog.dismiss();
                         Toast.makeText(MainActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
@@ -149,9 +153,7 @@ public class MainActivity extends AppCompatActivity {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             int selectedId = radioGroup.getCheckedRadioButtonId();
             radioButton = (RadioButton) findViewById(selectedId);
-            if (radioButton.getText() == "Available") {
-                status = Integer.parseInt(radioButton.getText().toString());
-            }
+                status = radioButton.getText().toString();
         });
         inc.setOnClickListener(v -> {
             if (Integer.parseInt(quantity.getText().toString())>= 0) {
@@ -176,10 +178,14 @@ public class MainActivity extends AppCompatActivity {
             Products products = new Products(name.getText().toString(),
                                              desc.getText().toString(),
                                              status,
-                                             Integer.parseInt(quantity.getText().toString()),
-                                             Integer.parseInt(price.getText().toString()),modelId);
+                                             (quantity.getText().toString()),
+                                             (price.getText().toString()),model.ImageUrl);
 
             myRef.push().setValue(products);
+            Intent intent=new Intent(MainActivity.this,UserActivity.class);
+            MainActivity.this.startActivity(intent);
+
+
         });
     }
 
