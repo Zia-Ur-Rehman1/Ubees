@@ -7,13 +7,16 @@ public class Products {
     int status;
     int quantity;
     int price;
+
+    String imgId;
     public Products(){}
-    public Products(String name, String desc, int status, int quantity, int price) {
+    public Products(String name, String desc, int status, int quantity, int price,String imgId) {
         this.name = name;
         this.desc = desc;
         this.status = status;
         this.quantity = quantity;
         this.price = price;
+        this.imgId = imgId;
     }
 
     @Override
@@ -24,7 +27,16 @@ public class Products {
                 ", status=" + status +
                 ", quantity=" + quantity +
                 ", price=" + price +
+                ", imgId='" + imgId + '\'' +
                 '}';
+    }
+
+    public String getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(String imgId) {
+        this.imgId = imgId;
     }
 
     public String getName() {

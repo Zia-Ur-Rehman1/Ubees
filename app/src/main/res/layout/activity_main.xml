@@ -8,12 +8,13 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:layout_marginVertical="20dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:gravity="center_vertical"
+        android:orientation="vertical"
         android:paddingHorizontal="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,87 +24,89 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:text="Add Product" />
+            android:text="Add Product"
+            android:textColor="@color/colorPrimary" />
 
         <EditText
             android:id="@+id/p_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:background="@drawable/edit_text_background"
             android:ems="10"
             android:hint="Product Name"
-            android:textSize="16sp"
-            android:layout_marginTop="32dp"
-            />
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/p_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:background="@drawable/edit_text_background"
             android:ems="10"
-            android:layout_marginTop="16dp"
             android:hint="Description"
-            android:textSize="16sp"
-            android:inputType="textLongMessage" />
+            android:inputType="textLongMessage"
+            android:textSize="16sp" />
+
         <RadioGroup
             android:id="@+id/radio1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
             android:layout_marginTop="10dp"
+            android:background="@drawable/edit_text_background"
             android:orientation="horizontal">
+
             <RadioButton
-                android:layout_weight="1"
                 android:id="@+id/radio_btnyes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Available"
-                />
-            <RadioButton
                 android:layout_weight="1"
+                android:text="Available" />
+
+            <RadioButton
                 android:id="@+id/radio_btnno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Stock Out"
-                />
+                android:layout_weight="1"
+                android:text="Stock Out" />
         </RadioGroup>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipChildren="false"
             android:layout_marginTop="16dp"
+            android:clipChildren="false"
             android:orientation="horizontal">
+
             <ImageButton
                 android:id="@+id/btnadd"
-                android:scaleType="fitXY"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:src="@drawable/ic_add"
                 android:layout_marginHorizontal="10dp"
                 android:background="@drawable/rounded_corner"
-                />
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_add" />
+
             <EditText
-                android:layout_weight="1"
                 android:id="@+id/quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="@drawable/edit_text_background"
                 android:ems="10"
                 android:hint="Quantity"
-                android:textSize="16sp"
-                android:inputType="text|number" />
+                android:inputType="text|number"
+                android:textSize="16sp" />
+
             <ImageButton
                 android:id="@+id/btnsub"
-                android:scaleType="fitXY"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_minus"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_marginHorizontal="10dp"
                 android:background="@drawable/rounded_corner"
-                />
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_minus" />
         </LinearLayout>
 
         <EditText
@@ -117,27 +120,61 @@
             android:inputType="text|numberDecimal"
             android:textSize="16sp" />
 
+        <ImageView
+            android:id="@+id/uploadimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_corner"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_img_upload" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload"
+                android:layout_marginHorizontal="10dp"
+                />
+
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/showall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show All"
+                android:layout_marginHorizontal="10dp"
+
+                />
+
+        </LinearLayout>
+
+
         <Button
             android:id="@+id/btnAddProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:textColor="@color/etBg"
             android:background="@drawable/btnprimary"
-            app:backgroundTint="@color/colorPrimary"
-            android:text="Add Product" />
-
+            android:text="Add Product"
+            android:textColor="@color/etBg"
+            app:backgroundTint="@color/colorPrimary" />
     </LinearLayout>
-
-    <ImageView
-
-        android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
