@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.ColorSpace;
@@ -35,10 +36,8 @@ public class MainActivity extends AppCompatActivity {
     int status = 0;
     Uri imageUri;
     String modelId;
-    private Button uploadBtn, showAllBtn;
+    private Button uploadBtn,add;
     private ImageView imageView;
-    private ProgressBar progressBar;
-    Button add;
     int counter = 0;
     ImageButton inc, dec;
     RadioGroup radioGroup;
@@ -53,12 +52,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         uploadBtn = findViewById(R.id.upload);
-        showAllBtn = findViewById(R.id.showall);
-        progressBar = findViewById(R.id.progressBar);
         imageView = findViewById(R.id.uploadimg);
-        progressBar.setVisibility(View.INVISIBLE);
 
-        showAllBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this , MainActivity.class)));
 
         imageView.setOnClickListener(v -> {
             Intent galleryIntent = new Intent();
@@ -88,25 +83,42 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
     private void uploadToFirebase(Uri uri){
+        ProgressDialog progressDialog
+                = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading...");
+        progressDialog.show();
 
         final StorageReference fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
-        fileRef.putFile(uri).addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(Uri uri1) {
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
 
-                Model model = new Model(uri1.toString());
-                modelId = root.push().getKey();
-//                root.child(modelId).setValue(model);
-                progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(MainActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                imageView.setImageResource(R.drawable.ic_img_upload);
+                        Model model = new Model(uri.toString());
+                        modelId = root.push().getKey();
+                        progressDialog.dismiss();
+                        Toast.makeText(MainActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        })).addOnProgressListener(snapshot -> progressBar.setVisibility(View.VISIBLE)).addOnFailureListener(new OnFailureListener() {
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                double progress
+                        = (100.0
+                        * snapshot.getBytesTransferred()
+                        / snapshot.getTotalByteCount());
+                progressDialog.setMessage(
+                        "Uploaded "
+                                + (int)progress + "%");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                progressBar.setVisibility(View.INVISIBLE);
+                progressDialog.dismiss();
                 Toast.makeText(MainActivity.this, "Uploading Failed !!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -133,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         inc = findViewById(R.id.btnadd);
         dec = findViewById(R.id.btnsub);
         add = findViewById(R.id.btnAddProduct);
-
+        quantity.setText(counter+"");
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             int selectedId = radioGroup.getCheckedRadioButtonId();
             radioButton = (RadioButton) findViewById(selectedId);
@@ -142,17 +154,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         inc.setOnClickListener(v -> {
-            if (quantity.getText().toString().trim().length() > 0) {
+            if (Integer.parseInt(quantity.getText().toString())>= 0) {
                 counter = Integer.parseInt(quantity.getText().toString());
-                counter++;
-                quantity.setText(counter + "");
-            } else {
                 counter++;
                 quantity.setText(counter + "");
             }
         });
         dec.setOnClickListener(v -> {
-            if (quantity.getText().toString().trim().length() > 0 && Integer.parseInt(quantity.getText().toString()) > 0) {
+            if (Integer.parseInt(quantity.getText().toString()) > 0) {
 
                 counter = Integer.parseInt(quantity.getText().toString());
                 counter--;
