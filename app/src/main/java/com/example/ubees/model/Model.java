@@ -1,4 +1,4 @@
-package com.example.ubees;
+package com.example.ubees.model;
 
 public class Model {
     String ImageUrl;

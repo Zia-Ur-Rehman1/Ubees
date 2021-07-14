@@ -5,7 +5,7 @@
     android:id="@+id/mainDrawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserActivity">
+    tools:context=".activities.UserActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -52,6 +52,7 @@
                     android:textSize="24sp" />
 
                 <ImageView
+                    android:id="@+id/cart"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentTop="true"

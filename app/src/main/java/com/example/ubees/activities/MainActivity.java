@@ -1,4 +1,4 @@
-package com.example.ubees;
+package com.example.ubees.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -7,22 +7,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.ColorSpace;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.example.ubees.model.Model;
+import com.example.ubees.R;
+import com.example.ubees.model.Products;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
                         model = new Model(uri.toString());
 
-                        Log.i("ZIA", "onSuccess: "+model.ImageUrl);
+                        Log.i("ZIA", "onSuccess: "+model.getImageUrl());
                         modelId = root.push().getKey();
                         progressDialog.dismiss();
                         Toast.makeText(MainActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
@@ -179,12 +178,11 @@ public class MainActivity extends AppCompatActivity {
                                              desc.getText().toString(),
                                              status,
                                              (quantity.getText().toString()),
-                                             (price.getText().toString()),model.ImageUrl);
+                                             (price.getText().toString()), model.getImageUrl());
 
             myRef.push().setValue(products);
             Intent intent=new Intent(MainActivity.this,UserActivity.class);
             MainActivity.this.startActivity(intent);
-
 
         });
     }

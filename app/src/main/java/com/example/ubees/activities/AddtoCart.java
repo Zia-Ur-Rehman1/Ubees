@@ -1,15 +1,18 @@
-package com.example.ubees;
+package com.example.ubees.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.ubees.R;
+import com.example.ubees.model.Cart;
+import com.example.ubees.model.Products;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -17,23 +20,26 @@ import com.google.gson.Gson;
 public class AddtoCart extends AppCompatActivity {
     ImageButton inc,dec;
     ImageView imageView;
+    Button add;
+    String user_name;
     TextView name,price,desc,quantity;
     int counter=0;
     Products products;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addto_cart);
-        String quizData= getIntent().getStringExtra("Item");
+        String data= getIntent().getStringExtra("Item");
+        user_name= getIntent().getStringExtra("User");
         Gson gson = new Gson();
-        products=gson.fromJson(quizData,Products.class);
+        products=gson.fromJson(data,Products.class);
         setup_views();
         setup_firebase();
     }
 
     private void setup_firebase() {
-        FirebaseDatabase database=FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("products");
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("cart");
 
     }
 
@@ -49,6 +55,8 @@ public class AddtoCart extends AppCompatActivity {
         name.setText(products.getName());
         price.setText(products.getPrice());
         desc.setText(products.getDesc());
+        add=findViewById(R.id.add_cart);
+
         Glide.with(this).load(products.getImgId()).into(imageView);
         inc.setOnClickListener(v -> {
             if (Integer.parseInt(quantity.getText().toString())>= 0) {
@@ -65,6 +73,13 @@ public class AddtoCart extends AppCompatActivity {
                 quantity.setText(counter + "");
             }
         });
-
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference db_ref=FirebaseDatabase.getInstance().getReference("cart");
+                Cart cart=new Cart(products.getName(),quantity.getText().toString(),products.getPrice());
+                db_ref.child(user_name).push().setValue(cart);
+            }
+        });
     }
 }
