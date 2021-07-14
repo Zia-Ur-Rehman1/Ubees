@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,10 +25,8 @@ import java.util.ArrayList;
 
 public class UserActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    private ArrayList<Products> list = new ArrayList<>();
-    private ProductAdapter adapter;
-
-    private DatabaseReference root = FirebaseDatabase.getInstance().getReference("products");
+    ArrayList<Products> list = new ArrayList<>();
+    ProductAdapter adapter;
 
 
 
@@ -35,26 +35,24 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         fetchData();
-        setfirebase();
 
 
     }
 
     private void fetchData() {
-        root.addValueEventListener(new ValueEventListener() {
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("products");
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        root.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange( DataSnapshot snapshot) {
-                for(DataSnapshot s: snapshot.getChildren()){
-                    list.add(s.getValue(Products.class));
+            public void onComplete(Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DataSnapshot s : task.getResult().getChildren()) {
+                        list.add(s.getValue(Products.class));
+                    }
+                    setfirebase();
                 }
-
-            }
-            @Override
-            public void onCancelled( DatabaseError error) {
-
             }
         });
-
     }
 
     private void setfirebase() {
