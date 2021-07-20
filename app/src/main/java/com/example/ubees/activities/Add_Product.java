@@ -1,7 +1,6 @@
 package com.example.ubees.activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -19,19 +18,24 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.ubees.model.Model;
 import com.example.ubees.R;
 import com.example.ubees.model.Products;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
-public class MainActivity extends AppCompatActivity {
+public class Add_Product extends AppCompatActivity {
     EditText name, desc, quantity, price;
     String status;
     Uri imageUri;
@@ -42,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     int counter = 0;
     ImageButton inc, dec;
     RadioGroup radioGroup;
-    RadioButton radioButton;
-
+    RadioButton radioButton,r1,r2;
+    Products products;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference root = database.getReference("products");
     private StorageReference reference = FirebaseStorage.getInstance().getReference();
@@ -51,11 +55,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_addproduct);
         uploadBtn = findViewById(R.id.upload);
         imageView = findViewById(R.id.uploadimg);
-
-
+        name = findViewById(R.id.p_name);
+        desc = findViewById(R.id.p_desc);
+        quantity = findViewById(R.id.quantity);
+        price = findViewById(R.id.p_price);
+        radioGroup = findViewById(R.id.radio1);
+        quantity.setText(counter+"");
+        r1=findViewById(R.id.radio_btnyes);
+        r2=findViewById(R.id.radio_btnno);
+        String data=getIntent().getStringExtra("Item");
+        if(!data.equals("none")){
+            Gson gson = new Gson();
+            products=gson.fromJson(data,Products.class);
+            name.setText(products.getName());
+            desc.setText(products.getDesc());
+            quantity.setText(products.getQuantity());
+            price.setText(products.getPrice());
+            Glide.with(Add_Product.this).load(products.getImgId()).into(imageView);
+            if(r1.getText().toString().equals(products.getStatus())){
+                r1.setChecked(true);
+            }
+            else{
+                r2.setChecked(true);
+            }
+//            Toast.makeText(Add_Product.this,data,Toast.LENGTH_SHORT).show();
+        }
         imageView.setOnClickListener(v -> {
             Intent galleryIntent = new Intent();
             galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -67,14 +94,14 @@ public class MainActivity extends AppCompatActivity {
             if (imageUri != null){
                 uploadToFirebase(imageUri);
             }else{
-                Toast.makeText(MainActivity.this, "Please Select Image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Add_Product.this, "Please Select Image", Toast.LENGTH_SHORT).show();
             }
         });
         addProduct();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode ==2 && resultCode == RESULT_OK && data != null){
@@ -103,13 +130,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("ZIA", "onSuccess: "+model.getImageUrl());
                         modelId = root.push().getKey();
                         progressDialog.dismiss();
-                        Toast.makeText(MainActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Add_Product.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+            public void onProgress( UploadTask.TaskSnapshot snapshot) {
                 double progress
                         = (100.0
                         * snapshot.getBytesTransferred()
@@ -120,9 +147,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onFailure(Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Uploading Failed !!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Add_Product.this, "Uploading Failed !!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -140,15 +167,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void addProduct() {
-        name = findViewById(R.id.p_name);
-        desc = findViewById(R.id.p_desc);
-        quantity = findViewById(R.id.quantity);
-        price = findViewById(R.id.p_price);
-        radioGroup = findViewById(R.id.radio1);
         inc = findViewById(R.id.btnadd);
         dec = findViewById(R.id.btnsub);
         add = findViewById(R.id.btnAddProduct);
-        quantity.setText(counter+"");
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             int selectedId = radioGroup.getCheckedRadioButtonId();
             radioButton = (RadioButton) findViewById(selectedId);
@@ -172,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
 //        Push Data to firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("products");
+        String key=getIntent().getStringExtra("key");
 
         add.setOnClickListener(v -> {
             Products products = new Products(name.getText().toString(),
@@ -179,11 +201,14 @@ public class MainActivity extends AppCompatActivity {
                                              status,
                                              (quantity.getText().toString()),
                                              (price.getText().toString()), model.getImageUrl());
-
+            if(!key.equals("none")){
+                myRef.child(key).removeValue();
+            }
             myRef.push().setValue(products);
-            Intent intent=new Intent(MainActivity.this,UserActivity.class);
-            MainActivity.this.startActivity(intent);
 
+            Intent intent=new Intent(Add_Product.this, UserActivity.class);
+            Add_Product.this.startActivity(intent);
+            finish();
         });
     }
 

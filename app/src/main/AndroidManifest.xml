@@ -9,10 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ubees">
-        <activity android:name=".activities.Cart_Activity"></activity>
-        <activity android:name=".activities.Login">
-
-        </activity>
+        <activity android:name=".activities.Order"></activity>
+        <activity android:name=".activities.Cart_Activity" />
+        <activity android:name=".activities.Login"></activity>
         <activity android:name=".activities.Register_User">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.AddtoCart" />
-        <activity android:name=".activities.UserActivity"></activity>
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.UserActivity" />
+        <activity android:name=".activities.Add_Product" />
     </application>
 
 </manifest>

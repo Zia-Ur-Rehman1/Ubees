@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.ubees.R;
 import com.example.ubees.activities.AddtoCart;
+import com.example.ubees.activities.Add_Product;
+import com.example.ubees.activities.UserActivity;
 import com.example.ubees.model.Products;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -28,16 +30,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
 
     private ArrayList<Products> mList;
     private Context context;
-    FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
-    String user=firebaseAuth.getCurrentUser().getEmail();
+    ArrayList<String> key;
 
 
-
-    public ProductAdapter(Context context , ArrayList<Products> mList){
+    public ProductAdapter(Context context , ArrayList<Products> mList,ArrayList<String> key){
 
         this.context = context;
         this.mList = mList;
+        this.key=key;
     }
+
 
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.item, parent , false);
@@ -46,23 +48,30 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder( MyViewHolder holder, int position) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json=gson.toJson(mList.get(position));
         holder.textView.setText(mList.get(position).getName());
         Glide.with(context).load(mList.get(position).getImgId()).into(holder.imageView);
-        if(user.equals("ubaidurrehman9898@gmail.com")){
-            Toast.makeText(context,user,Toast.LENGTH_SHORT).show();
-            holder.update.setVisibility(View.VISIBLE);
-            holder.delete.setVisibility(View.VISIBLE);
-        }
-        holder.price.setText("Rs "+mList.get(position).getPrice());
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.price.setText(mList.get(position).getPrice());
+        holder.update.setOnClickListener(v -> {
+            Intent intent=new Intent(context.getApplicationContext(), Add_Product.class);
+            intent.putExtra("key",key.get(position));
+            intent.putExtra("Item", json);
+            context.startActivity(intent);
+        });
+        holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                String json=gson.toJson(mList.get(position));
-                Intent intent=new Intent(context.getApplicationContext(), AddtoCart.class);
-                intent.putExtra("Item", json);
+                DatabaseReference db= FirebaseDatabase.getInstance().getReference("products");
+                db.child(key.get(position)).removeValue();
+                Intent intent=new Intent(context.getApplicationContext(), UserActivity.class);
                 context.startActivity(intent);
             }
+        });
+        holder.cardView.setOnClickListener(v -> {
+            Intent intent=new Intent(context.getApplicationContext(), AddtoCart.class);
+            intent.putExtra("Item", json);
+            context.startActivity(intent);
         });
     }
 
@@ -76,16 +85,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         ImageView imageView;
         TextView textView;
         TextView price;
-        Button update,delete;
+        ImageView update,delete;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.img);
+            imageView =(ImageView) itemView.findViewById(R.id.product_img);
             textView=(TextView) itemView.findViewById(R.id.img_name);
             price=(TextView) itemView.findViewById(R.id.img_price);
             cardView=(CardView) itemView.findViewById(R.id.card_container);
-            update=(Button)itemView.findViewById(R.id.update);
-            delete=(Button) itemView.findViewById(R.id.delete);
+            update=(ImageView) itemView.findViewById(R.id.update_product);
+            delete=(ImageView) itemView.findViewById(R.id.delete_product);
         }
     }
 }

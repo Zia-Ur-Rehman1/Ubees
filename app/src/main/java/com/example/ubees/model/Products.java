@@ -2,6 +2,7 @@ package com.example.ubees.model;
 
 public class Products {
 
+    String product_id;
     String name;
     String desc;
     String status;

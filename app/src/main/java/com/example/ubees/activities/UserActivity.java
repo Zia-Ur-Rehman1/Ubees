@@ -1,11 +1,13 @@
 package com.example.ubees.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -30,22 +32,18 @@ import java.util.ArrayList;
 public class UserActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Products> list = new ArrayList<>();
+    ArrayList<String> key = new ArrayList<>();
     ProductAdapter adapter;
-    FirebaseAuth firebaseAuth;
     ImageView cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        firebaseAuth=FirebaseAuth.getInstance();
             cart=findViewById(R.id.cart);
-            cart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(UserActivity.this,Cart_Activity.class);
-                    UserActivity.this.startActivity(intent);
-                }
+            cart.setOnClickListener(v -> {
+                Intent intent=new Intent(UserActivity.this,Cart_Activity.class);
+                UserActivity.this.startActivity(intent);
             });
         fetchData();
 
@@ -61,12 +59,12 @@ public class UserActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (DataSnapshot s : task.getResult().getChildren()) {
                         list.add(s.getValue(Products.class));
+                        key.add(s.getKey());
                     }
-                    setView();
-                }
-                else{
-                    Toast.makeText(UserActivity.this,"Database Error",Toast.LENGTH_SHORT).show();
-                    return;
+                    UserActivity.this.setView();
+                } else {
+                    Toast.makeText(UserActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
+                    UserActivity.this.fetchData();
                 }
             }
         });
@@ -74,7 +72,7 @@ public class UserActivity extends AppCompatActivity {
 
     private void setView() {
         if(list.toString().trim().length()>0){
-            adapter=new ProductAdapter(this,list);
+            adapter=new ProductAdapter(this,list,key);
             recyclerView=findViewById(R.id.recyle_view);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
             recyclerView.setAdapter(adapter);
