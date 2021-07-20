@@ -45,6 +45,7 @@ public class UserActivity extends AppCompatActivity {
             add_product.setOnClickListener(v -> {
                 Intent intent=new Intent(UserActivity.this,Add_Product.class);
                 UserActivity.this.startActivity(intent);
+                recreate();
             });
             cart.setOnClickListener(v -> {
                 Intent intent=new Intent(UserActivity.this,Cart_Activity.class);

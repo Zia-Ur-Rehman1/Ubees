@@ -61,6 +61,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             intent.putExtra("key",key.get(position));
             intent.putExtra("Item", json);
             context.startActivity(intent);
+            ((UserActivity)context).recreate();
+
         });
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,8 +71,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 db.child(key.get(position)).removeValue();
                 StorageReference s_db= FirebaseStorage.getInstance().getReferenceFromUrl(mList.get(position).getImgId());
                 s_db.delete().addOnSuccessListener(unused -> Toast.makeText(context, "Data Removed", Toast.LENGTH_SHORT).show());
-                Intent intent=new Intent(context.getApplicationContext(), UserActivity.class);
-                context.startActivity(intent);
+                ((UserActivity)context).recreate();
+
             }
         });
         holder.cardView.setOnClickListener(v -> {
