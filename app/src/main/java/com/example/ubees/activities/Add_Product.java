@@ -47,6 +47,8 @@ public class Add_Product extends AppCompatActivity {
     ImageButton inc, dec;
     RadioGroup radioGroup;
     RadioButton radioButton,r1,r2;
+    String key;
+
     Products products;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference root = database.getReference("products");
@@ -67,14 +69,17 @@ public class Add_Product extends AppCompatActivity {
         r1=findViewById(R.id.radio_btnyes);
         r2=findViewById(R.id.radio_btnno);
         String data=getIntent().getStringExtra("Item");
-        if(!data.equals("none")){
+        if(getIntent().getExtras()!=null){
+            key=getIntent().getStringExtra("key");
             Gson gson = new Gson();
             products=gson.fromJson(data,Products.class);
             name.setText(products.getName());
             desc.setText(products.getDesc());
             quantity.setText(products.getQuantity());
             price.setText(products.getPrice());
+            imageUri =  Uri.parse( products.getImgId());
             Glide.with(Add_Product.this).load(products.getImgId()).into(imageView);
+            model.setImageUrl(products.getImgId());
             if(r1.getText().toString().equals(products.getStatus())){
                 r1.setChecked(true);
             }
@@ -87,6 +92,7 @@ public class Add_Product extends AppCompatActivity {
             Intent galleryIntent = new Intent();
             galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
             galleryIntent.setType("image/*");
+//            onActivityResult(2,1,galleryIntent);
             startActivityForResult(galleryIntent , 2);
         });
 
@@ -95,6 +101,7 @@ public class Add_Product extends AppCompatActivity {
                 uploadToFirebase(imageUri);
             }else{
                 Toast.makeText(Add_Product.this, "Please Select Image", Toast.LENGTH_SHORT).show();
+
             }
         });
         addProduct();
@@ -124,13 +131,15 @@ public class Add_Product extends AppCompatActivity {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-
                         model = new Model(uri.toString());
-
                         Log.i("ZIA", "onSuccess: "+model.getImageUrl());
                         modelId = root.push().getKey();
                         progressDialog.dismiss();
                         Toast.makeText(Add_Product.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        if(getIntent().getExtras()!=null){
+                            StorageReference s_db= FirebaseStorage.getInstance().getReferenceFromUrl(products.getImgId());
+                            s_db.delete().addOnSuccessListener(unused -> Log.i("ZIA", "onSuccess: "));
+                        }
                     }
                 });
             }
@@ -193,17 +202,18 @@ public class Add_Product extends AppCompatActivity {
 //        Push Data to firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("products");
-        String key=getIntent().getStringExtra("key");
 
         add.setOnClickListener(v -> {
+            if(getIntent().getExtras()!=null){
+                myRef.child(key).removeValue();
+            }
+
             Products products = new Products(name.getText().toString(),
                                              desc.getText().toString(),
                                              status,
                                              (quantity.getText().toString()),
-                                             (price.getText().toString()), model.getImageUrl());
-            if(!key.equals("none")){
-                myRef.child(key).removeValue();
-            }
+                                             (price.getText().toString()),model.getImageUrl() );
+
             myRef.push().setValue(products);
 
             Intent intent=new Intent(Add_Product.this, UserActivity.class);

@@ -20,8 +20,11 @@ import com.example.ubees.activities.AddtoCart;
 import com.example.ubees.activities.Add_Product;
 import com.example.ubees.activities.UserActivity;
 import com.example.ubees.model.Products;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -64,6 +67,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             public void onClick(View v) {
                 DatabaseReference db= FirebaseDatabase.getInstance().getReference("products");
                 db.child(key.get(position)).removeValue();
+                StorageReference s_db= FirebaseStorage.getInstance().getReferenceFromUrl(mList.get(position).getImgId());
+                s_db.delete().addOnSuccessListener(unused -> Toast.makeText(context, "Data Removed", Toast.LENGTH_SHORT).show());
                 Intent intent=new Intent(context.getApplicationContext(), UserActivity.class);
                 context.startActivity(intent);
             }

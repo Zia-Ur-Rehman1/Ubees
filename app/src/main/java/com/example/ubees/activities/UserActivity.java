@@ -34,13 +34,18 @@ public class UserActivity extends AppCompatActivity {
     ArrayList<Products> list = new ArrayList<>();
     ArrayList<String> key = new ArrayList<>();
     ProductAdapter adapter;
-    ImageView cart;
+    ImageView cart,add_product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
             cart=findViewById(R.id.cart);
+            add_product=findViewById(R.id.add_product);
+            add_product.setOnClickListener(v -> {
+                Intent intent=new Intent(UserActivity.this,Add_Product.class);
+                UserActivity.this.startActivity(intent);
+            });
             cart.setOnClickListener(v -> {
                 Intent intent=new Intent(UserActivity.this,Cart_Activity.class);
                 UserActivity.this.startActivity(intent);
