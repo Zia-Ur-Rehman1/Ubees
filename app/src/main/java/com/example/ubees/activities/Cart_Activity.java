@@ -35,6 +35,7 @@ public class Cart_Activity extends AppCompatActivity {
 
     String user_name= FirebaseAuth.getInstance().getCurrentUser().getUid();
     ArrayList<Cart> list=new ArrayList<>();
+    ArrayList<String> key=new ArrayList<>();
     Button checkout;
     RecyclerView recyclerView;
     CartAdapter cartAdapter;
@@ -55,6 +56,7 @@ public class Cart_Activity extends AppCompatActivity {
             public void onComplete( Task<DataSnapshot> task) {
                 for(DataSnapshot s: task.getResult().getChildren()) {
                     list.add(s.getValue(Cart.class));
+                    key.add(s.getKey());
                 }
                 for(int i=0; i<list.size();i++){
                     item=item+1;
@@ -70,19 +72,19 @@ public class Cart_Activity extends AppCompatActivity {
 
         checkout.setOnClickListener(v -> {
             DatabaseReference db= FirebaseDatabase.getInstance().getReference("order");
-            Place_Order place_order=new Place_Order(total_price.getText().toString(), "none");
+            Place_Order place_order=new Place_Order(total_price.getText().toString(), "none","incomplete");
             db.child(user_name).setValue(place_order);
             Intent intent=new Intent(Cart_Activity.this,Order.class);
+            intent.putExtra("total",total_price.getText().toString());
             Cart_Activity.this.startActivity(intent);
             finish();
         });
 
     }
     public void setViews(){
-        cartAdapter=new CartAdapter(this, list);
+        cartAdapter=new CartAdapter(this, list,key);
         recyclerView=findViewById(R.id.cart_recycler);
         LinearLayoutManager linearLayoutManager= new LinearLayoutManager(this);
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setAdapter(cartAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
 //      set recycler view

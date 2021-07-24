@@ -3,6 +3,8 @@ package com.example.ubees.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ubees.R;
@@ -21,12 +23,14 @@ import java.util.ArrayList;
 public class Order extends AppCompatActivity {
     ArrayList<Cart> list = new ArrayList<>();
     String user_name = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+    TextView total;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         DatabaseReference db=FirebaseDatabase.getInstance().getReference("order").child(user_name);
-
+        total=findViewById(R.id.final_price);
+        String price= getIntent().getStringExtra("total");
+        total.setText("Total Rs:"+price);
     }
 }

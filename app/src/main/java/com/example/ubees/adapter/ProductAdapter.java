@@ -61,8 +61,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             intent.putExtra("key",key.get(position));
             intent.putExtra("Item", json);
             context.startActivity(intent);
-            ((UserActivity)context).recreate();
-
+            ((UserActivity)context).finish();
         });
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +76,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         });
         holder.cardView.setOnClickListener(v -> {
             Intent intent=new Intent(context.getApplicationContext(), AddtoCart.class);
+            intent.putExtra("key",key.get(position));
             intent.putExtra("Item", json);
             context.startActivity(intent);
+            ((UserActivity)context).finish();
         });
     }
 

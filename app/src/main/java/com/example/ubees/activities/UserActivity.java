@@ -1,6 +1,7 @@
 package com.example.ubees.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,6 +24,7 @@ import com.example.ubees.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -30,11 +34,14 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 public class UserActivity extends AppCompatActivity {
+    ActionBarDrawerToggle drawer;
+    NavigationView navigationView;
     RecyclerView recyclerView;
     ArrayList<Products> list = new ArrayList<>();
     ArrayList<String> key = new ArrayList<>();
     ProductAdapter adapter;
-    ImageView cart,add_product;
+    ImageView cart;
+    ImageView add_product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,7 @@ public class UserActivity extends AppCompatActivity {
                 UserActivity.this.startActivity(intent);
             });
         fetchData();
+        setUpDrawlayout();
 
     }
 
@@ -84,5 +92,40 @@ public class UserActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(gridLayoutManager);
         }
+    }
+    public void setUpDrawlayout() {
+        navigationView = findViewById(R.id.navigationView);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                int id =item.getItemId();
+                if(id== R.id.btnlogout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(UserActivity.this, Login.class);
+                    UserActivity.this.startActivity(intent);
+                    finish();
+                    return true;
+                }
+                else{
+                    Intent intent = new Intent(UserActivity.this, Cart_Activity.class);
+                    UserActivity.this.startActivity(intent);
+                    finish();
+                    return true;
+                }
+            }
+        });
+        setSupportActionBar(findViewById(R.id.appBar));
+        drawer = new ActionBarDrawerToggle(UserActivity.this, findViewById(R.id.mainDrawer), R.string.app_name, R.string.app_name);
+        drawer.syncState();
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (drawer.onOptionsItemSelected(item)) {
+            return (true);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

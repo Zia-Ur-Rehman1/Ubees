@@ -106,7 +106,12 @@ public class Add_Product extends AppCompatActivity {
         });
         addProduct();
     }
-
+    @Override
+    public void onBackPressed(){
+        Intent intent=new Intent(Add_Product.this,UserActivity.class);
+        Add_Product.this.startActivity(intent);
+        finish();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
