@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.example.ubees.R;
 import com.example.ubees.model.User;
@@ -26,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
     Button edit,update;
     User user;
-
+    ImageButton order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
         ph=findViewById(R.id.profile_ph);
         edit=findViewById(R.id.edit);
         update=findViewById(R.id.update);
-
+        order=findViewById(R.id.profileOrder);
         fetchData();
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +65,14 @@ public class ProfileActivity extends AppCompatActivity {
             myRef.child(userName).child("address").setValue(addr.getText().toString());
             myRef.child(userName).child("phone").setValue(ph.getText().toString());
             }
+        }
+    });
+    order.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent =new Intent(ProfileActivity.this,OrderDetails.class);
+            startActivity(intent);
+            finish();
         }
     });
     }

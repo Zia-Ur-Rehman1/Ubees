@@ -109,7 +109,6 @@ public class AddtoCart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Cart cart=new Cart (products.getImgId(),products.getName(),quantity.getText().toString(),products.getPrice());
-
                 db_ref.child(key).setValue(cart);
                 Intent intent=new Intent(AddtoCart.this,UserActivity.class);
                 AddtoCart.this.startActivity(intent);
