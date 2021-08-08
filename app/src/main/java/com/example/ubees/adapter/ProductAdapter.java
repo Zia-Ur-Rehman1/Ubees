@@ -21,6 +21,7 @@ import com.example.ubees.activities.Add_Product;
 import com.example.ubees.activities.UserActivity;
 import com.example.ubees.model.Products;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -34,6 +35,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     private ArrayList<Products> mList;
     private Context context;
     ArrayList<String> key;
+    String userName= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
     public ProductAdapter(Context context , ArrayList<Products> mList,ArrayList<String> key){
@@ -68,6 +70,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             public void onClick(View v) {
                 DatabaseReference db= FirebaseDatabase.getInstance().getReference("products");
                 db.child(key.get(position)).removeValue();
+                DatabaseReference db_cart= FirebaseDatabase.getInstance().getReference("cart").child(userName);
+                db_cart.child(key.get(position)).removeValue();
                 StorageReference s_db= FirebaseStorage.getInstance().getReferenceFromUrl(mList.get(position).getImgId());
                 s_db.delete().addOnSuccessListener(unused -> Toast.makeText(context, "Data Removed", Toast.LENGTH_SHORT).show());
                 ((UserActivity)context).recreate();

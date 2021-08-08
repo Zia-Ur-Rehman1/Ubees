@@ -1,5 +1,7 @@
 package com.example.ubees.model;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 public class User {
@@ -60,7 +62,7 @@ public class User {
     }
 
     public void setCity(String city) {
-        city = city;
+        this.city = city;
     }
 
     public String getAddress() {

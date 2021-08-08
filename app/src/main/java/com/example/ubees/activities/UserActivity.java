@@ -40,7 +40,7 @@ public class UserActivity extends AppCompatActivity {
     ArrayList<Products> list = new ArrayList<>();
     ArrayList<String> key = new ArrayList<>();
     ProductAdapter adapter;
-    ImageView cart;
+    ImageView cart,profile;
     ImageView add_product;
 
     @Override
@@ -48,6 +48,14 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
             cart=findViewById(R.id.cart);
+            profile=findViewById(R.id.profile);
+            profile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(UserActivity.this,ProfileActivity.class);
+                    startActivity(intent);
+                }
+            });
             add_product=findViewById(R.id.add_product);
             add_product.setOnClickListener(v -> {
                 Intent intent=new Intent(UserActivity.this,Add_Product.class);
@@ -77,7 +85,6 @@ public class UserActivity extends AppCompatActivity {
                     }
                     UserActivity.this.setView();
                 } else {
-                    Toast.makeText(UserActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
                     UserActivity.this.fetchData();
                 }
             }
@@ -107,12 +114,12 @@ public class UserActivity extends AppCompatActivity {
                     finish();
                     return true;
                 }
-                else{
+                else if(id== R.id.btnProfile){
                     Intent intent = new Intent(UserActivity.this, Cart_Activity.class);
                     UserActivity.this.startActivity(intent);
-                    finish();
                     return true;
                 }
+                return true;
             }
         });
         setSupportActionBar(findViewById(R.id.appBar));
