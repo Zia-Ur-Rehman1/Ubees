@@ -60,7 +60,7 @@
 
                 android:layout_gravity="start"
                 android:src="@drawable/ic_baseline_backup_24"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/delete_product"
@@ -70,7 +70,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_toStartOf="@+id/update_product"
                 android:src="@drawable/ic_baseline_delete_24"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
         </RelativeLayout>
 

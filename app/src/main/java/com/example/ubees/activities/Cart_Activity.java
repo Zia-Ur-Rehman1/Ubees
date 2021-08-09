@@ -39,17 +39,12 @@ public class Cart_Activity extends AppCompatActivity {
     Button checkout;
     RecyclerView recyclerView;
     CartAdapter cartAdapter;
-    TextView total_item,total_qunt,total_price;
-    int item,quan,price=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         checkout=findViewById(R.id.checkout);
-        total_item=findViewById(R.id.total_item);
-        total_qunt=findViewById(R.id.total_quantity);
-        total_price=findViewById(R.id.total_price);
         DatabaseReference db_ref= FirebaseDatabase.getInstance().getReference("cart").child(user_name);
         db_ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -58,24 +53,16 @@ public class Cart_Activity extends AppCompatActivity {
                     list.add(s.getValue(Cart.class));
                     key.add(s.getKey());
                 }
-                for(int i=0; i<list.size();i++){
-                    item=item+1;
-                    quan=quan+Integer.parseInt(list.get(i).getProduct_quantity());
-                    price=price+Integer.parseInt(list.get(i).getProduct_price());
-                }
-                total_item.setText("Items\n"+item);
-                total_price.setText("Price\nRs: "+price);
-                total_qunt.setText("Quantity"+quan);
+
                 setViews();
             }
         });
 
         checkout.setOnClickListener(v -> {
             DatabaseReference db= FirebaseDatabase.getInstance().getReference("order");
-            Place_Order place_order=new Place_Order(total_price.getText().toString(), "none","incomplete");
+            Place_Order place_order=new Place_Order( "none","incomplete");
             db.child(user_name).setValue(place_order);
             Intent intent=new Intent(Cart_Activity.this,Order.class);
-            intent.putExtra("total",total_price.getText().toString());
             Cart_Activity.this.startActivity(intent);
             finish();
         });
@@ -87,6 +74,5 @@ public class Cart_Activity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager= new LinearLayoutManager(this);
         recyclerView.setAdapter(cartAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
-//      set recycler view
     }
 }

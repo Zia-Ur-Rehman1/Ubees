@@ -42,6 +42,7 @@ public class UserActivity extends AppCompatActivity {
     ProductAdapter adapter;
     ImageView cart,profile;
     ImageView add_product;
+    String userName= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,9 @@ public class UserActivity extends AppCompatActivity {
                 }
             });
             add_product=findViewById(R.id.add_product);
+            if(userName.equals("qdWQbUI3YhPU2jzmcwHTKMdLDxl1")){
+                add_product.setVisibility(View.VISIBLE);
+            }
             add_product.setOnClickListener(v -> {
                 Intent intent=new Intent(UserActivity.this,Add_Product.class);
                 UserActivity.this.startActivity(intent);
@@ -74,7 +78,6 @@ public class UserActivity extends AppCompatActivity {
 
     private void fetchData() {
         DatabaseReference root = FirebaseDatabase.getInstance().getReference("products");
-
         root.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(Task<DataSnapshot> task) {
@@ -94,7 +97,7 @@ public class UserActivity extends AppCompatActivity {
     private void setView() {
         if(list.toString().trim().length()>0){
             adapter=new ProductAdapter(this,list,key);
-            recyclerView=findViewById(R.id.recyle_view);
+             recyclerView=findViewById(R.id.recyle_view);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(gridLayoutManager);
@@ -119,7 +122,12 @@ public class UserActivity extends AppCompatActivity {
                     UserActivity.this.startActivity(intent);
                     return true;
                 }
-                return true;
+                else{
+                    Intent intent = new Intent(UserActivity.this, Order.class);
+                    UserActivity.this.startActivity(intent);
+                    return true;
+
+                }
             }
         });
         setSupportActionBar(findViewById(R.id.appBar));

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ubees">
         <activity
-            android:name=".activities.OrderDetails"
+            android:name=".activities.OrderPlaced"
             android:exported="true" />
         <activity
             android:name=".activities.ProfileActivity"

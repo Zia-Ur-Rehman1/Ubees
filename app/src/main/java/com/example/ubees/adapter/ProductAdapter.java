@@ -53,7 +53,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder( MyViewHolder holder, int position) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        if(userName.equals("qdWQbUI3YhPU2jzmcwHTKMdLDxl1")) {
+            holder.delete.setVisibility(View.VISIBLE);
+            holder.update.setVisibility(View.VISIBLE);
+        }
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json=gson.toJson(mList.get(position));
         holder.textView.setText(mList.get(position).getName());
         Glide.with(context).load(mList.get(position).getImgId()).into(holder.imageView);

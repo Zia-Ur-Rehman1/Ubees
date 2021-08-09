@@ -29,7 +29,7 @@
         android:id="@+id/cart_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/total"
+        app:layout_constraintBottom_toTopOf="@id/checkout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textcart" />
@@ -40,61 +40,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total"
+        app:layout_constraintTop_toBottomOf="@+id/cart_recycler"
         android:layout_marginBottom="20dp"
         android:text="Place Order"
         />
-    <androidx.cardview.widget.CardView
-        android:id="@+id/total"
-        app:cardBackgroundColor="@color/colorPrimarylittleDark"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:padding="10dp"
-        app:cardCornerRadius="16dp"
-        android:layout_margin="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/checkout"
-        app:layout_constraintTop_toBottomOf="@+id/cart_recycler"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/total_item"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:layout_alignParentStart="true"
-            />
-
-        <TextView
-            android:id="@+id/total_quantity"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="20dp"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/white"
-
-            android:text=""
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/total_price"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:textColor="@color/white"
-
-            android:gravity="center"
-            android:text=""
-            android:textSize="20dp" />
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

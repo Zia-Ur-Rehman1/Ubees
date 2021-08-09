@@ -14,26 +14,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:layout_marginHorizontal="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView3">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="User Name"
-    android:textSize="16sp"
-    android:gravity="center"
-    android:layout_marginLeft="5dp"
-    android:textColor="@color/black"
-    />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="User Name"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
         <EditText
             android:id="@+id/profile_name"
             android:layout_width="match_parent"
@@ -45,103 +46,105 @@
             android:hint="User Name"
             android:inputType="textEmailAddress"
             android:textSize="16sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="City"
-            android:textSize="16sp"
-            android:gravity="center"
             android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="City"
             android:textColor="@color/black"
-            />
+            android:textSize="16sp" />
+
         <EditText
             android:id="@+id/profile_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="12dp"
-            android:focusable="false"
-
             android:background="@drawable/edit_text_background"
+
             android:ems="10"
+            android:focusable="false"
             android:hint="City"
             android:inputType="textPersonName"
             android:textSize="16sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address"
-            android:textSize="16sp"
-            android:gravity="center"
             android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="Address"
             android:textColor="@color/black"
-            />
+            android:textSize="16sp" />
+
         <EditText
             android:id="@+id/profile_addr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="12dp"
-            android:focusable="false"
-
             android:background="@drawable/edit_text_background"
+
             android:ems="10"
+            android:focusable="false"
             android:hint="Address"
             android:inputType="textEmailAddress"
             android:textSize="16sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone"
-            android:textSize="16sp"
-            android:gravity="center"
             android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="Phone"
             android:textColor="@color/black"
-            />
+            android:textSize="16sp" />
+
         <EditText
             android:id="@+id/profile_ph"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="12dp"
-            android:focusable="false"
-
             android:background="@drawable/edit_text_background"
+
             android:ems="10"
+            android:focusable="false"
             android:hint="Phone"
             android:inputType="phone"
             android:textSize="16sp" />
 
         <Button
             android:id="@+id/edit"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
             android:background="@drawable/btnprimary"
+            android:gravity="center"
             android:text="Edit"
-            android:visibility="visible"
             android:textColor="@color/etBg"
+            android:visibility="visible"
             app:backgroundTint="@color/colorPrimary" />
+
         <Button
             android:id="@+id/update"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:background="@drawable/btnprimary"
-            android:visibility="gone"
             android:text="Update"
             android:textColor="@color/etBg"
+            android:visibility="gone"
             app:backgroundTint="@color/colorPrimary" />
 
-
         <ImageButton
-            android:id="@+id/profileOrder"
+            android:id="@+id/orderDetail"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="16dp"
-            android:scaleType="fitXY"
             android:layout_gravity="center"
+            android:scaleType="fitXY"
             android:src="@drawable/ic_clipboard"
-            android:background="@android:color/transparent"
-             />
-
+            android:visibility="gone" />
     </LinearLayout>
 
 

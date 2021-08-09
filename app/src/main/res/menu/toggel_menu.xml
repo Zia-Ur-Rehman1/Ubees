@@ -6,5 +6,5 @@
 <!--    <item android:title="Follow Us" android:id="@+id/btnFollowUs"/>-->
     <item android:title="Profile" android:id="@+id/btnProfile" />
     <item android:title="Log Out" android:id="@+id/btnlogout" />
-
+    <item android:title="Order" android:id="@+id/btnOrder" />
 </menu>
