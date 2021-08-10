@@ -1,5 +1,6 @@
 package com.example.ubees.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,9 @@ import com.example.ubees.R;
 import com.example.ubees.adapter.CartAdapter;
 import com.example.ubees.adapter.PlacedOrderAdapter;
 import com.example.ubees.model.Place_Order;
+import com.example.ubees.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,9 +33,10 @@ public class OrderPlaced extends AppCompatActivity {
         setContentView(R.layout.activity_order_placed);
 
         DatabaseReference db= FirebaseDatabase.getInstance().getReference("order");
+
         db.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                for(DataSnapshot s: task.getResult().getChildren()){
+                for(DataSnapshot s: task.getResult().getChildren()) {
                     list.add(s.getValue(Place_Order.class));
                     key.add(s.getKey());
                 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ubees.R;
 import com.example.ubees.activities.Order;
 import com.example.ubees.model.Place_Order;
+import com.example.ubees.model.User;
 
 import java.util.ArrayList;
 
@@ -21,11 +22,13 @@ public class PlacedOrderAdapter  extends RecyclerView.Adapter<PlacedOrderAdapter
     Context context;
     ArrayList<Place_Order> list=new ArrayList<Place_Order>();
     ArrayList<String> key= new ArrayList<>();
-    public PlacedOrderAdapter(Context context, ArrayList<Place_Order> list,ArrayList<String> key) {
+
+    public PlacedOrderAdapter(Context context, ArrayList<Place_Order> list, ArrayList<String> key) {
         this.context = context;
         this.list = list;
-        this.key=key;
+        this.key = key;
     }
+
 
     @NonNull
     @Override
@@ -38,6 +41,7 @@ public class PlacedOrderAdapter  extends RecyclerView.Adapter<PlacedOrderAdapter
     public void onBindViewHolder(@NonNull OrderPlaceViewHolder holder, int position) {
         holder.status.setText(list.get(position).getStatus());
         holder.refNum.setText(list.get(position).getRefrence_num());
+
         holder.orderCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +64,7 @@ public class PlacedOrderAdapter  extends RecyclerView.Adapter<PlacedOrderAdapter
         public OrderPlaceViewHolder( View itemView) {
             super(itemView);
             status=(TextView) itemView.findViewById(R.id.placedOrderStatus);
-            refNum=(TextView) itemView.findViewById(R.id.placedRefrenceNumber);
+            refNum=(TextView) itemView.findViewById(R.id.placedOrderRefrenceNumber);
             orderCard=(CardView) itemView.findViewById(R.id.orderCard);
         }
     }

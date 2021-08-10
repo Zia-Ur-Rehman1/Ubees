@@ -37,31 +37,38 @@ public class Order extends AppCompatActivity {
     Button checkout;
     OrderAdapter orderAdapter;
     RecyclerView recyclerView;
-    TextView refrenceNumber,userName,city,status;
+    TextView userName,city;
+    EditText status;
+    EditText refrenceNumber;
     DatabaseReference db_order = FirebaseDatabase.getInstance().getReference("order");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-        if(getIntent().getStringExtra("key")!=null){
-            user_name= getIntent().getStringExtra("key");
-        }
-        else{
-            user_name= FirebaseAuth.getInstance().getCurrentUser().getUid();
-        }
 
         refrenceNumber=findViewById(R.id.refrence);
         userName=findViewById(R.id.orderUserName);
         city=findViewById(R.id.orderuserCity);
         status=findViewById(R.id.orderStatus);
         checkout=findViewById(R.id.checkout);
+        if(getIntent().getStringExtra("key")!=null){
+            user_name= getIntent().getStringExtra("key");
+            checkout.setVisibility(View.GONE);
+            refrenceNumber.setFocusable(false);
+            status.setFocusableInTouchMode(true);
+        }
+        else{
+            user_name= FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+
         checkout.setOnClickListener(v -> {
-            if(!order.getRefrence_num().equals("none")) {
             Toast.makeText(Order.this,"Payment Confirmation",Toast.LENGTH_SHORT).show();
                 Intent intent= new Intent(Order.this,UserActivity.class);
                 Place_Order place_order=new Place_Order(refrenceNumber.getText().toString(),"Payment Confirmation");
                 db_order.child(user_name).setValue(place_order);
-          }
+                checkout.setVisibility(View.GONE);
+                refrenceNumber.setFocusable(false);
+
         });
         fetchData();
 
