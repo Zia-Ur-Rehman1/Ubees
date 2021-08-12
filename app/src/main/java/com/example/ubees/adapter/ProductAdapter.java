@@ -53,7 +53,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder( MyViewHolder holder, int position) {
-        if(userName.equals("qdWQbUI3YhPU2jzmcwHTKMdLDxl1")) {
+        if(userName.equals("QvNiiKejq4RdZDsLMoGDYvh3z342")) {
             holder.delete.setVisibility(View.VISIBLE);
             holder.update.setVisibility(View.VISIBLE);
         }

@@ -58,7 +58,7 @@ public class UserActivity extends AppCompatActivity {
                 }
             });
             add_product=findViewById(R.id.add_product);
-            if(userName.equals("qdWQbUI3YhPU2jzmcwHTKMdLDxl1")){
+            if(userName.equals("QvNiiKejq4RdZDsLMoGDYvh3z342")){
                 add_product.setVisibility(View.VISIBLE);
             }
             add_product.setOnClickListener(v -> {
@@ -118,16 +118,22 @@ public class UserActivity extends AppCompatActivity {
                     return true;
                 }
                 else if(id== R.id.btnProfile){
-                    Intent intent = new Intent(UserActivity.this, Cart_Activity.class);
+                    Intent intent = new Intent(UserActivity.this, ProfileActivity.class);
                     UserActivity.this.startActivity(intent);
                     return true;
                 }
-                else{
+                else if(id== R.id.btnContact)
+                {
+                    Intent intent = new Intent(UserActivity.this, Contact.class);
+                    UserActivity.this.startActivity(intent);
+                    return true;
+                }
+                else if(id==R.id.btnOrder){
                     Intent intent = new Intent(UserActivity.this, Order.class);
                     UserActivity.this.startActivity(intent);
                     return true;
-
                 }
+                return  true;
             }
         });
         setSupportActionBar(findViewById(R.id.appBar));

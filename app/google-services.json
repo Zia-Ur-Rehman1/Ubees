@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "466473853752",
-    "firebase_url": "https://ubees-fe7cf-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "ubees-fe7cf",
-    "storage_bucket": "ubees-fe7cf.appspot.com"
+    "project_number": "1047535813845",
+    "project_id": "ubees-561de",
+    "storage_bucket": "ubees-561de.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:466473853752:android:744bf2e727bbbb04f697cd",
+        "mobilesdk_app_id": "1:1047535813845:android:29d146cb7afcac6e56ce5c",
         "android_client_info": {
           "package_name": "com.example.ubees"
         }
       },
       "oauth_client": [
         {
-          "client_id": "466473853752-nvfjccjer526ptqn1pv4vrt8c17toch8.apps.googleusercontent.com",
+          "client_id": "1047535813845-evo2jcifdd42o4oqughn5kmrlaqj81t6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAG5sGIwxAb0mP8-hyJub5poahpiGwrBfg"
+          "current_key": "AIzaSyAPaiemANIhORMu-2r9cR_YRiRCnEHSfqo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "466473853752-nvfjccjer526ptqn1pv4vrt8c17toch8.apps.googleusercontent.com",
+              "client_id": "1047535813845-evo2jcifdd42o4oqughn5kmrlaqj81t6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

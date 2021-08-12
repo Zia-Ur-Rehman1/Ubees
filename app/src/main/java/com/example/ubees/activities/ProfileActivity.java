@@ -19,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ProfileActivity extends AppCompatActivity {
     EditText name, city, addr, ph;
     String userName= FirebaseAuth.getInstance().getCurrentUser().getUid();
-    String admin= FirebaseAuth.getInstance().getCurrentUser().getEmail();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
     Button edit,update;
     User user;
@@ -39,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
         orderDetail=findViewById(R.id.orderDetail);
 
         fetchData();
-        if(admin.equals("ubaidurrehman9898@gmail.com")){
+        if(userName.equals("QvNiiKejq4RdZDsLMoGDYvh3z342")){
             orderDetail.setVisibility(View.VISIBLE);
         }
         edit.setOnClickListener(v -> {

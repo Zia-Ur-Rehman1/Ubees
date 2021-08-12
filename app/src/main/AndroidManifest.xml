@@ -10,24 +10,43 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ubees">
         <activity
+            android:name=".activities.Contact"
+            android:exported="true" />
+        <activity
             android:name=".activities.OrderPlaced"
-            android:exported="true" android:screenOrientation="portrait"/>
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ProfileActivity"
-            android:exported="true" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.Order" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.Cart_Activity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.Login" android:screenOrientation="portrait">
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Order"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Cart_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.Register_User" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activities.AddtoCart" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.UserActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.Add_Product" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.Register_User"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AddtoCart"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.UserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Add_Product"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
